@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 import { Stack } from '@mui/material'
-import { TasksContext } from "../Context/TasksContext";
 import Task from "./Tasks.tsx/Task";
 
-const AllTasks: React.FC = () => {
-    const tasksArray = useContext(TasksContext);
+
+const AllTasks: React.FC = ({tasksArray}) => {
     return(
         <Stack>
-            {tasksArray.map(item => {
+            {tasksArray.map((item:{title: string, description?: string, isCompleted: boolean}) => {
                 return(
-                    <div></div>
+                    <div>{item.title}</div>
                 )
             })}
         </Stack>
