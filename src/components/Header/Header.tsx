@@ -6,8 +6,9 @@ import ShowAll from "./Buttons/FilterButtons/ShowAll";
 import ShowCompleted from "./Buttons/FilterButtons/ShowCompleted";
 import ShowUncompleted from "./Buttons/FilterButtons/ShowUncompleted";
 import SearchDefaultInput from "./SearchTask/SearchTaskInput";
+import { FilteredTasksType } from "../../App";
 
-const Header: React.FC = () => {
+const Header: React.FC<{addTask(i:FilteredTasksType): void}> = ({addTask}) => {
     return(
         <Box>
             <AppBar
@@ -26,7 +27,9 @@ const Header: React.FC = () => {
                     To-Do App
                 </Typography>
 
-                <AddTask />
+                <AddTask 
+                    addTask={(i:FilteredTasksType) => addTask(i)}
+                />
 
                 <Stack
                     direction={"row"}

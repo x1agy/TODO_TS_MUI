@@ -1,14 +1,26 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Stack } from '@mui/material'
 import Task from "./Tasks.tsx/Task";
+import { FilteredTasksType } from "../../App";
 
-
-const AllTasks: React.FC = ({tasksArray}) => {
+const AllTasks: React.FC<{ tasksArray: FilteredTasksType[]} & {updateTask: (i: FilteredTasksType) => void} & {deleteTask: (id: number) => void}> = ({ tasksArray, updateTask, deleteTask }) => {
+    
     return(
-        <Stack>
-            {tasksArray.map((item:{title: string, description?: string, isCompleted: boolean}) => {
+        <Stack
+            sx={{
+                marginTop:"130px"
+            }}
+        >
+            {tasksArray && tasksArray.map(item => {
                 return(
-                    <div>{item.title}</div>
+                    <Task 
+                        title={item.title}
+                        description={item.description}
+                        isCompleted={item.isCompleted}
+                        id={item.id}
+                        setTask = {(i:FilteredTasksType) => updateTask(i)}
+                        deleteTask = {(id: number) => deleteTask(id)}
+                    />
                 )
             })}
         </Stack>
