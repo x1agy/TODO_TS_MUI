@@ -8,7 +8,7 @@ const AllTasks: React.FC<{ tasksArray: FilteredTasksType[]} & {updateTask: (i: F
     return(
         <Stack
             sx={{
-                marginTop:"130px"
+                marginTop:"100px"
             }}
         >
             {tasksArray && tasksArray.map(item => {

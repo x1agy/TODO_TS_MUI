@@ -5,26 +5,17 @@ import { FilteredTasksType } from '../../../App';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { styleForModal, styleCloseIconInModal, styleDescriptionTextFieldModal, styleSaveButtonModal, styleTitleTextFieldModal } from '../../StyleConstants/ModalsStyle';
 
-const styleForModalInTask = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 
 const Task: React.FC<FilteredTasksType & {setTask: (i: FilteredTasksType) => void} & {deleteTask: (id: number) => void}> = ({ title, description, isCompleted, id, setTask, deleteTask }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     
-    const [titleValue, setTitleValue] = React.useState<string | number>(title)
-    const [descriptionValue, setDescriptionValue] = React.useState<string | number>(description || "task didnt have description")
+    const [titleValue, setTitleValue] = React.useState<string>(title)
+    const [descriptionValue, setDescriptionValue] = React.useState<string>(description || "task didnt have description")
+
 
     function saveChanges(){
         if(titleValue && (titleValue + "").length < 100){
@@ -108,35 +99,24 @@ const Task: React.FC<FilteredTasksType & {setTask: (i: FilteredTasksType) => voi
                     onClose={handleClose}
                     
                 >
-                    <Box sx={styleForModalInTask}>
+                    <Box sx={styleForModal}>
                     <CloseIcon 
-                        sx={{
-                            position:"absolute",
-                            right:"10px",
-                            top:"10px",
-                            cursor:"pointer"
-                        }}
+                        sx={styleCloseIconInModal}
                         onClick={handleClose}
                     />
                     
                     <TextField 
                         value={titleValue}
                         variant='standard'
-                        onChange={(e) => setTitleValue(e.target.value)}
-                        sx={{
-                            mb:"30px",
-                            width:"80%"
-                        }}
+                        onChange={(e) => setTitleValue(e.target.value + '')}
+                        sx={styleTitleTextFieldModal}
                     />
                     <br />
                     <TextField 
                         value={descriptionValue}
                         variant='standard'
-                        onChange={(e) => setDescriptionValue(e.target.value)}
-                        sx={{
-                            width:"90%",
-                            mb:"30px"
-                        }}
+                        onChange={(e) => setDescriptionValue(e.target.value + '')}
+                        sx={styleDescriptionTextFieldModal}
                         multiline
                     />
                     <Button
@@ -145,9 +125,7 @@ const Task: React.FC<FilteredTasksType & {setTask: (i: FilteredTasksType) => voi
                         onClick={handleClose}
                     >close</Button>
                     <Button
-                        sx={{
-                            ml:"20px"
-                        }}
+                        sx={styleSaveButtonModal}
                         variant='contained'
                         onClick={saveChanges}
                     >save</Button>

@@ -1,14 +1,19 @@
 import React from "react";
 import Box from "@mui/material/Box"
-import { AppBar, Typography, Stack } from "@mui/material";
-import AddTask from "./Buttons/AddTask";
+import { buttonsStyle } from "../StyleConstants/HeaderStyleConstants/ButtonsStyle";
+import { AppBar, Typography, Stack, Button } from "@mui/material";
 import ShowAll from "./Buttons/FilterButtons/ShowAll";
 import ShowCompleted from "./Buttons/FilterButtons/ShowCompleted";
 import ShowUncompleted from "./Buttons/FilterButtons/ShowUncompleted";
 import SearchDefaultInput from "./SearchTask/SearchTaskInput";
 import { FilteredTasksType } from "../../App";
+import AddTaskModal from "./Buttons/AddTask/AddTaskModal";
 
-const Header: React.FC<{addTask(i:FilteredTasksType): void}> = ({addTask}) => {
+const Header: React.FC<{clickedButton: boolean | null} & {addTask(i:FilteredTasksType): void} & {setFilterWord(i:string): void} & {setFilterButton(i:boolean | null): void} > = ({clickedButton, addTask, setFilterButton, setFilterWord}) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     return(
         <Box>
             <AppBar
@@ -27,22 +32,42 @@ const Header: React.FC<{addTask(i:FilteredTasksType): void}> = ({addTask}) => {
                     To-Do App
                 </Typography>
 
-                <AddTask 
-                    addTask={(i:FilteredTasksType) => addTask(i)}
-                />
+                <Button
+                    variant="contained"
+                    sx={buttonsStyle}
+                    onClick={handleOpen}
+                ><Typography>AddTask</Typography></Button>
 
                 <Stack
                     direction={"row"}
                     
                 >
-                    <ShowAll />
-                    <ShowCompleted />
-                    <ShowUncompleted />
+                    <ShowAll 
+                        setClickedButton={(i:null) => setFilterButton(i)}
+                        clickedButton={clickedButton}
+                    />
+                    <ShowCompleted 
+                        setClickedButton={(i:true) => setFilterButton(i)}
+                        clickedButton={clickedButton}
+                    />
+                    <ShowUncompleted 
+                        setClickedButton={(i:false) => setFilterButton(i)}
+                        clickedButton={clickedButton}
+                    />
                 </Stack>
                 
-                <SearchDefaultInput />
+                <SearchDefaultInput 
+                    setFilterWord={(word:string) => setFilterWord(word)}
+                />
 
             </AppBar>
+
+            <AddTaskModal 
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                open={open}
+                addTask={(task:FilteredTasksType) => addTask(task)}
+            />
         </Box>
     )
 }

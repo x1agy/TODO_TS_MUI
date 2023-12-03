@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, TextField } from '@mui/material';
 import { Search } from "@mui/icons-material";
 
-const SearchDefaultInput: React.FC = () => {
+const SearchDefaultInput: React.FC<{setFilterWord(word:string): void}> = ({setFilterWord}) => {
     return(
         <Box
             sx={{
@@ -16,6 +16,7 @@ const SearchDefaultInput: React.FC = () => {
                     m:"20px",
                     width:"280px"
                 }}
+                onChange={(e) => setFilterWord(e.target.value + '')}
             />
             <Search 
                 sx={{
